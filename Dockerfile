@@ -18,7 +18,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /opt
 RUN mkdir -p /out && git clone https://github.com/amnezia-vpn/amneziawg-go.git
 WORKDIR /opt/amneziawg-go
+# Апстрим-репозиторий тянет устаревшие golang.org/x/crypto и golang.org/x/net
+# с известными CVE (см. историю CI) — принудительно обновляем до пропатченных
+# версий перед сборкой, вместо того чтобы ждать апстрим-фикс.
+RUN go get golang.org/x/crypto@v0.43.0 golang.org/x/net@v0.55.0 \
+    && go mod tidy
 RUN go build -o /out/amneziawg-go
+
 
 WORKDIR /opt
 RUN git clone https://github.com/amnezia-vpn/amneziawg-tools.git
