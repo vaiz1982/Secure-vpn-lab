@@ -2,3 +2,4 @@ ansible/vault.yml
 honeypot/honeyfs/
 *.tar
 .env
+ansible/inventory/hosts.ini
