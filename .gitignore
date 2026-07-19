@@ -1,3 +1,4 @@
 ansible/vault.yml
 honeypot/honeyfs/
 *.tar
+.env
