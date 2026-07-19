@@ -1,9 +1,72 @@
 
 
 
+port 2222 // real ssh , avalable only from bastion host!!!!!!!!!!!!!
+
+ssh -p 22 root@52.201.253.5  // honepod!,monitoring !!!!!!!!!!!!!!!
+
+ssh -i some1 -p 2222 -L 8080:127.0.0.1:8080 ubuntu@52.201.253.5 // nagious
+http://localhost:8080 //only local forwarding ! !!!!!!!!!!!!
 
 
-ssh -p 22 root@52.201.253.5  // honepod! 
+sudo docker exec amneziawg awg show  // check if vpn work! 
+nc -zvu 52.201.253.5 51820  //confirm richable from outside not inside!!!!!!!
+
+
+
+
+
+
+
+
+
+
+
+What you built:
+
+1. A VPN server (AmneziaWG) — obfuscated WireGuard fork, running in Docker, 
+   built from source with a hardened multi-stage image (no compiler/CVEs 
+   left in the final image)
+
+2. An SSH honeypot (Cowrie) — sitting on port 22 to catch and log 
+   scanners/bots, with realistic decoy files (fake passwd, bash history, 
+   "leaked" credentials) so it looks like a real compromised server
+
+3. Monitoring (Nagios) — checks that VPN, SSH, and honeypot are all alive, 
+   accessible only through an SSH tunnel
+
+4. Hardened SSH — moved to port 2222, root/password login disabled, 
+   fail2ban active
+
+5. Network isolation — honeypot and VPN sit in separate Docker networks, 
+   so even if the honeypot got compromised it has no path to the VPN
+
+6. Full CI/CD — GitHub Actions: lint → test → build → Trivy security scan 
+   → publish to Docker Hub on version tags
+
+7. Ansible automation — the whole hardening + deploy process is 
+   reproducible on a fresh server in one command
+
+What's not done yet: actual VPN client peers — the server runs, but 
+nothing can connect to it until we generate a client config (add-peer.sh 
+script).
+
+The real value of the session was less about the specific tools and more 
+about debugging real production issues as they came up — Docker 
+capability models breaking image startup scripts, a bash operator-
+precedence bug, systemd socket activation, Ubuntu/Docker repo version 
+mismatches. That's the kind of practical experience that's hard to get 
+any other way.
+
+
+
+
+
+
+
+
+
+
 
 
 
