@@ -32,7 +32,12 @@ if [ ! -f "${CONF}" ]; then
 fi
 
 echo "[*] Поднимаю интерфейс awg0..."
-awg-quick up "${CONF}" || awg-quick down "${CONF}" && awg-quick up "${CONF}"
+if ! awg-quick up "${CONF}"; then
+    echo "[*] Первая попытка не удалась, пробую down+up..."
+    awg-quick down "${CONF}" || true
+    awg-quick up "${CONF}"
+fi
+
 
 echo "[*] AmneziaWG запущен. Логи демона:"
 tail -f /dev/null
