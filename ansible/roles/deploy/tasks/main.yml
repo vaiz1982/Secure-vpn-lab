@@ -50,7 +50,9 @@
   ansible.builtin.copy:
     src: "{{ playbook_dir }}/../honeypot/"
     dest: "{{ deploy_repo_path }}/honeypot/"
-    mode: "0640"
+    mode: "0644"
+    directory_mode: "0755"
+
 
 - name: Создать директорию monitoring/conf.d
   ansible.builtin.file:
