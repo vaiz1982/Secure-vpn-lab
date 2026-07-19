@@ -1,0 +1,8 @@
+---
+ssh_port: 2222
+ssh_permit_root_login: "no"
+ssh_password_authentication: "no"
+
+fail2ban_bantime: 3600
+fail2ban_findtime: 600
+fail2ban_maxretry: 4

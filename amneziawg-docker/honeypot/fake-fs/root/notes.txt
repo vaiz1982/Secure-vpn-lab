@@ -1,0 +1,5 @@
+TODO:
+- ротировать backup_key после переноса на новый сервер (см /root/deploy_keys/)
+- дамп базы в /root/backup.sql устарел, перегенерить
+- поднять новый staging на 10.13.13.5, конфиги в /opt/configs/
+- напомнить Ире про доступы в панель (см credentials.txt в /opt)

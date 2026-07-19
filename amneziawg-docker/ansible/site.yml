@@ -1,0 +1,10 @@
+---
+- name: Harden and deploy VPN + honeypot + monitoring stack
+  hosts: vpn_hosts
+  become: true
+  vars_files:
+    - vault.yml
+
+  roles:
+    - hardening
+    - deploy
