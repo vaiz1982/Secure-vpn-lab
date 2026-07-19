@@ -22,6 +22,7 @@ SERVER_PRIV=$(cat server_private.key)
 : "${WG_S2:=0}"
 
 if [ ! -f "${CONF}" ]; then
+    # shellcheck source=./render_config.sh disable=SC1091
     source /usr/local/bin/render_config.sh
     export SERVER_PRIV
     render_config > "${CONF}"
