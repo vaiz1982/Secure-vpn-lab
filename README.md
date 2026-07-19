@@ -1,4 +1,15 @@
 
+
+
+
+
+ssh -p 22 root@52.201.253.5  // honepod! 
+
+
+
+
+
+
 # amneziawg-docker
 
 VPN server (AmneziaWG) + SSH honeypot (Cowrie) + monitoring (Nagios) in Docker,
