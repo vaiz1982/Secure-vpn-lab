@@ -54,6 +54,10 @@ services:
       - no-new-privileges:true
     ports:
       - "127.0.0.1:8080:80"
+    environment:
+      NAGIOSADMIN_USER: ${NAGIOSADMIN_USER:-nagiosadmin}
+      NAGIOSADMIN_PASS: ${NAGIOSADMIN_PASS:?Задай NAGIOSADMIN_PASS в .env — дефолтный пароль образа небезопасен}
+
     volumes:
       - ./monitoring/conf.d:/opt/nagios/conf.d:ro
       - nagios-var:/opt/nagios/var

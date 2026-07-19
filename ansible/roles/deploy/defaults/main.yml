@@ -16,3 +16,5 @@ vpn_jmax: 70
 
 dockerhub_image: "vaiz82/amneziawg-docker"
 dockerhub_tag: "latest"
+
+nagiosadmin_user: "nagiosadmin"
