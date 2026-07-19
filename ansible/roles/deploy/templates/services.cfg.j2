@@ -11,7 +11,7 @@ define service {
     use                     generic-service
     host_name               vpn-honeypot-host
     service_description     SSH (hardened port)
-    check_command           check_ssh_port!{{ ssh_port }}
+    check_command           check_ssh_port!{{ ssh_port | default(22) }}
     check_interval          5
 }
 
