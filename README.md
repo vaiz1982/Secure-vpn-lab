@@ -182,3 +182,34 @@ since it needs to check both services.
 
 
 push/PR → lint → unit-tests → build → scan → push (only on git tag)
+
+
+
+
+
+Trivy is a security scanner that runs automatically in our GitHub Actions 
+CI pipeline (.github/workflows/ci.yml), in the "scan" job.
+
+It runs in two modes:
+
+1. Image scan — after the Docker image is built, Trivy scans every 
+   installed package and library inside it against public CVE databases. 
+   If it finds anything rated HIGH or CRITICAL, the build fails, so a 
+   vulnerable image never gets published to Docker Hub.
+
+2. Config scan (IaC) — separately, Trivy checks the Dockerfile and 
+   docker-compose.yml themselves for unsafe patterns (running as root, 
+   missing resource limits, --privileged usage, etc.) — catching mistakes 
+   in the setup, not just in installed packages.
+
+Why we needed it: our first build had dozens of CVEs because it shipped 
+the entire Go compiler and toolchain inside the final image. After 
+switching to a multi-stage Dockerfile (build in one layer, copy only the 
+compiled binary to a clean final layer), Trivy's findings dropped from 
+dozens down to just a handful — all traced to outdated dependencies 
+(golang.org/x/crypto, golang.org/x/net) in the upstream project, which we 
+fixed by bumping them to @latest before building.
+
+It only runs in CI (on every push/PR to main), not continuously against 
+the already-deployed container — it's a gate before publishing, not a 
+runtime monitor.
