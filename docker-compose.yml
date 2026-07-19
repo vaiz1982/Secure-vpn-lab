@@ -1,8 +1,6 @@
-version: "3.8"
-
 services:
   vpn:
-    build: .
+    image: ${DOCKERHUB_IMAGE:-vaiz82/amneziawg-docker}:${DOCKERHUB_TAG:-latest}
     container_name: amneziawg
     restart: unless-stopped
     cap_add:
@@ -57,7 +55,7 @@ services:
     ports:
       - "127.0.0.1:8080:80"
     volumes:
-      - ./monitoring/conf.d:/opt/nagios/etc/conf.d:ro
+      - ./monitoring/conf.d:/opt/nagios/conf.d:ro
       - nagios-var:/opt/nagios/var
     depends_on:
       - vpn
