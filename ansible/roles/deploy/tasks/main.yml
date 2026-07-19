@@ -14,8 +14,8 @@
 - name: Добавить репозиторий Docker
   ansible.builtin.apt_repository:
     repo: >-
-      deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc]
-      https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+      deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc]
+      https://download.docker.com/linux/ubuntu {{ docker_apt_codename }} stable
     state: present
 
 - name: Установить Docker Engine + Compose plugin
@@ -64,7 +64,7 @@
     dest: "{{ deploy_repo_path }}/monitoring/conf.d/hosts.cfg"
     mode: "0640"
 
-- name: Отрендерить services.cfg
+- name: Отрендерить services.cfg — ssh_port берётся из hardening-роли (единый источник правды)
   ansible.builtin.template:
     src: services.cfg.j2
     dest: "{{ deploy_repo_path }}/monitoring/conf.d/services.cfg"
@@ -76,13 +76,13 @@
     dest: "{{ deploy_repo_path }}/.env"
     mode: "0600"
 
-- name: Логин в Docker Hub
+- name: Логин в Docker Hub (если образ приватный)
   community.docker.docker_login:
     username: "{{ dockerhub_username | default(omit) }}"
     password: "{{ dockerhub_password | default(omit) }}"
   when: dockerhub_username is defined
 
-- name: Пересобрать honeyfs до старта контейнеров
+- name: Пересобрать honeyfs (fake-fs → honeyfs) до старта контейнеров
   ansible.builtin.command:
     cmd: bash build-fakefs.sh
     chdir: "{{ deploy_repo_path }}/honeypot"
@@ -100,4 +100,4 @@
     proto: udp
     timeout: 30
     state: started
-  ignore_errors: true
+  ignore_errors: true # wait_for не всегда умеет честно проверять UDP — не фейлим плейбук на этом

@@ -1,6 +1,12 @@
 ---
 deploy_repo_path: /opt/amneziawg-docker
 docker_compose_version: "v2.29.0"
+# Docker apt-репозиторий часто отстаёт от самых свежих релизов Ubuntu.
+# Если сборка на новом/interim-релизе (например Ubuntu 26.04 "resolute")
+# падает с "No package matching docker-ce" — переопредели эту переменную
+# на последний LTS-коднейм, который Docker точно поддерживает:
+#   ansible-playbook ... -e docker_apt_codename=noble
+docker_apt_codename: "{{ ansible_distribution_release }}"
 
 vpn_port: 51820
 vpn_address: "10.13.13.1/24"
@@ -8,5 +14,5 @@ vpn_jc: 4
 vpn_jmin: 40
 vpn_jmax: 70
 
-dockerhub_image: "changeme/amneziawg-docker"
+dockerhub_image: "vaiz82/amneziawg-docker"
 dockerhub_tag: "latest"
