@@ -27,7 +27,8 @@ jobs:
       - name: Yamllint (compose/workflows)
         run: |
           pip install yamllint
-          yamllint -d relaxed docker-compose.yml .github/workflows/
+          yamllint -c .yamllint.yaml docker-compose.yml .github/workflows/
+
 
   unit-tests:
     runs-on: ubuntu-latest
@@ -81,7 +82,7 @@ jobs:
           severity: 'HIGH,CRITICAL'
           exit-code: '1'
           ignore-unfixed: true
-      - name: Trivy scan (IaC misconfig)
+      - name: "Trivy scan (IaC misconfig: Dockerfile, compose)"
         uses: aquasecurity/trivy-action@0.24.0
         with:
           scan-type: 'config'
