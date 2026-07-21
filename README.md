@@ -1,4 +1,5 @@
-
+we need dockerhub secrets add to Git!!!!!both!!!!!!!
+we use Blink terminal for it! !!!!!!!!!!!
 
 
 port 2222 // real ssh , avalable only from bastion host!!!!!!!!!!!!!
