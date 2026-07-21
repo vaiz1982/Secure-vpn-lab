@@ -1,3 +1,6 @@
+Trivy always FIRST!!!!!!!!!!!
+
+
 we need dockerhub secrets add to Git!!!!!both!!!!!!!
 we use Blink terminal for it! !!!!!!!!!!!
 
